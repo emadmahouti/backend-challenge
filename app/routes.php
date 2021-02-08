@@ -14,6 +14,7 @@ $router->group(['prefix' => 'api/'], function ($router) {
     $router->group(['prefix' => '/v1'], function ($router) {
 
         $router->group(['prefix' => '/repository/{rep_id}?'], function ($router) {
+            $router->get('/user-starred', ['App\Controllers\API\V1\Repository\RepositoryController', 'staredRepositories']);
             $router->get('/', ['App\Controllers\API\V1\Repository\RepositoryController', 'search']);
 
             $router->group(['prefix' => '/tag'], function($router){
