@@ -14,7 +14,8 @@
         "nesbot/carbon": "^2.16",
         "firebase/php-jwt": "^5.2.0",
         "guzzlehttp/guzzle": "^7.0",
-        "mpscholten/github-api": "v0.3"
+        "mpscholten/github-api": "v0.3",
+        "staudenmeir/laravel-upsert": "^1.4"
     },
     "authors": [
         {

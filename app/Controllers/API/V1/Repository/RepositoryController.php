@@ -11,8 +11,6 @@ use Soda\Core\Http\Controller;
 
 class RepositoryController extends Controller
 {
-    private $currentUserId = 1;
-
     public function beforeActionExecution($action_name, $action_arguments)
     {
         parent::beforeActionExecution($action_name, $action_arguments);
@@ -21,21 +19,27 @@ class RepositoryController extends Controller
 
     protected function staredRepositories()
     {
-        $username = $this->getRequest()->query->get('user');
-        if (is_null($username))
-            return $this->echoNormal('user is required');
-
-        $client = new Client([
-            'base_uri' => 'https://api.github.com/',
-            'headers' => [
-                'accept' => 'application/json',
-                'content-type' => 'application/json'
-            ]
-        ]);
-
-        $resp = [];
-
         try {
+            $username = $this->getRequest()->query->get('user');
+
+            if (is_null($username) || $username == "")
+                return $this->echoHttp(
+                    [
+                        'message' => 'username is required',
+                        'status' => 400,
+                        'time' => time()
+                    ]
+                    , 400);
+
+            $client = new Client([
+                'base_uri' => 'https://api.github.com/',
+                'headers' => [
+                    'accept' => 'application/json',
+                    'content-type' => 'application/json'
+                ]
+            ]);
+
+            $resp = [];
             $response = $client->get("/users/$username/starred?per_page=10");
             $repositories = json_decode($response->getBody());
 
@@ -44,58 +48,91 @@ class RepositoryController extends Controller
             }, $repositories);
 
             $storedRepositories = Repository::with('tags')
+                ->where('user_id', CURRENT_USER_ID)
                 ->whereIn('rep_id', $repIds)
                 ->get(['id', 'rep_id', 'user_id'])
                 ->toArray();
 
-            foreach ($repositories as $item) {
-
+            $temp = [];
+            foreach ($repositories as &$item) {
                 $rep = [];
-                $rep['rep_id'] = $item->id;
+                $rep_id = $item->id;
+                $id = null;
+
+                foreach ($storedRepositories as $storedRepository) {
+                    if ($storedRepository['rep_id'] == $rep_id)
+                        $id = $storedRepository['id'];
+                }
+
+                $rep['id'] = $id;
+                $rep['rep_id'] = $rep_id;
                 $rep['rep_name'] = $item->name;
-                $rep['rep_description'] = $item->description;
+                $rep['user_id'] = CURRENT_USER_ID;
                 $rep['rep_url'] = $item->url;
                 $rep['language'] = $item->language;
-                $rep['tags'] = array_map(function ($object) use ($item) {
-                    if ($object['rep_id'] == $item->id && $object['user_id'] == $this->currentUserId)
-                        return $object['tags'];
-                    return null;
-                }, $storedRepositories);
+                $rep['rep_description'] = $item->description;
 
-                $resp['data'][] = $rep;
+                $temp[] = $rep;
             }
 
-            $resp['status'] = 200;
-            $resp['time'] = 1347978941;
+            Repository::upsert(
+                $temp,
+                ['id']
+            );
 
-            return $this->echoNormal($resp);
+            return $this->echoNormal(
+                [
+                    'data' => $temp,
+                    'message' => count($temp) . ' repositories found',
+                    'status' => 200,
+                    'time' => time()
+                ]);
         } catch (GuzzleException $e) {
-            return $this->echoNormal($e->getMessage());
+
+            return $this->echoHttp(
+                [
+                    'message' => 'internal server error',
+                    'status' => 500,
+                    'time' => time()
+                ], 500);
+
+        } catch (\Exception $e) {
+            return $this->echoHttp(
+                [
+                    'message' => 'internal server error',
+                    'status' => 500,
+                    'time' => time()
+                ], 500);
         }
     }
 
     protected function search()
     {
-        $q = $this->getRequest()->query->get('search');
+        $q = $this->getRequest()->query->get('search', null);
 
         try {
             $repositories = Repository::with('tags')
-                ->where('user_id', $this->currentUserId)
+                ->where('user_id', CURRENT_USER_ID)
                 ->whereHas('tags', function ($query) use ($q) {
                     $query->where('title', 'like', "%$q%");
                 })
-                ->limit(10)
                 ->get();
 
             $response = [
                 'data' => $repositories,
+                'message' => count($repositories) . " repositories found",
                 'status' => 200,
-                'time' => 16484
+                'time' => time()
             ];
 
             return $this->echoNormal($response);
-        } catch (ModelNotFoundException $e) {
-            return $this->echoHttp('no result', 404);
+        } catch (\Exception $e) {
+            return $this->echoHttp(
+                [
+                    'message' => 'internal server error',
+                    'status' => 500,
+                    'time' => time()
+                ], 500);
         }
     }
 }

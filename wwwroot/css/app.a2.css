@@ -35,6 +35,10 @@ div.fb:after {
     height: 10em;
 }
 
+.text-primary {
+    color: #0ea960 !important;
+}
+
 .nav-item a.nav-link {
     color: #2a2a2a;
     font-size: 1rem

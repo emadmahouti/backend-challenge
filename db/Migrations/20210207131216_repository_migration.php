@@ -16,14 +16,14 @@ final class RepositoryMigration extends Migration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    function up() {
-        $this->schema->create('repositories', function(Illuminate\Database\Schema\Blueprint $table){
-            $table->increments('id');
-            $table->integer('rep_id')
-                ->nullable(false);
-            $table->integer('user_id')
-                ->nullable(false);
+    function up()
+    {
+        $this->schema->create('repositories', function (Illuminate\Database\Schema\Blueprint $table) {
+            $table->integerIncrements('id');
+            $table->integer('rep_id');
+            $table->integer('user_id');
             $table->string('rep_name');
+            $table->string('language')->nullable(true);
             $table->string('rep_description');
             $table->string('rep_url');
             $table->timestampsTz();

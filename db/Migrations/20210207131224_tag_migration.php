@@ -20,9 +20,9 @@ final class TagMigration extends Migration
     {
         $this->schema->create('tags', function (Illuminate\Database\Schema\Blueprint $table) {
             $table->increments('id');
-            $table->integer('rep_id')
-                ->nullable(false);
+            $table->integer('rep_id');
             $table->string('title');
+            $table->boolean('active')->default(1);
             $table->timestampsTz();
         });
     }
