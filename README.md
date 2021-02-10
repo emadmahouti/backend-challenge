@@ -11,7 +11,6 @@ A simple PHP MVC framework
 
 You can understand how it works by simply configuring your webserver to run Soda and start browsing the included `app.sample.config.php` and overall project structure (folder structure).
 
-
 # Requirements
 to run FBC, you need to install requirements. to do so, execute `composer update` at root folder using command prompt.
 

@@ -100,9 +100,8 @@ class RepositoryController extends Controller
                 $data[] = $rep;
             }
 
-            Repository::upsert(
-                $data,
-                ['id']
+            Repository::insertOrIgnore(
+                $data
             );
 
             return $this->echoNormal(
