@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "510baf4d-6099-494f-9e1a-d29c30cd1ddd",
+		"_postman_id": "cf0d5697-1fa6-41de-a282-5f435f442934",
 		"name": "footballi backend chalenge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "get user starred",
+			"name": "get user starred repositories",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -28,6 +28,27 @@
 							"key": "user",
 							"value": "vsg24"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get current user repositories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:80/api/v1/repository",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"repository"
 					]
 				}
 			},
@@ -137,7 +158,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:80/api/v1/repository?search=chart",
+					"raw": "http://localhost:80/api/v1/repository/search?q=chart",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -146,11 +167,12 @@
 					"path": [
 						"api",
 						"v1",
-						"repository"
+						"repository",
+						"search"
 					],
 					"query": [
 						{
-							"key": "search",
+							"key": "q",
 							"value": "chart"
 						}
 					]

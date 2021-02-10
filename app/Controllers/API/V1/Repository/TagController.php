@@ -168,7 +168,7 @@ class TagController extends Controller
             return $this->echoHttp(
                 [
                     'message' => 'tag not found',
-                    'status' => 400,
+                    'status' => 404,
                     'time' => time()
                 ], 404);
         } catch (\Exception $e) {

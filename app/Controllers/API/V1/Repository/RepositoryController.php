@@ -2,7 +2,6 @@
 
 namespace App\Controllers\API\V1\Repository;
 
-
 use App\Models\Repository;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -16,6 +15,29 @@ class RepositoryController extends Controller
         parent::beforeActionExecution($action_name, $action_arguments);
     }
 
+    protected function index()
+    {
+        try {
+            $repositories = Repository::with('tags')
+                ->where('user_id', CURRENT_USER_ID)
+                ->get();
+
+            return $this->echoHttp(
+                [
+                    'data' => $repositories,
+                    'message' => count($repositories) . ' repository found',
+                    'status' => 200,
+                    'time' => time()
+                ], 200);
+        } catch (\Exception $e) {
+            return $this->echoHttp(
+                [
+                    'message' => 'internal server error',
+                    'status' => 500,
+                    'time' => time()
+                ], 500);
+        }
+    }
 
     protected function staredRepositories()
     {
@@ -107,7 +129,7 @@ class RepositoryController extends Controller
 
     protected function search()
     {
-        $q = $this->getRequest()->query->get('search', null);
+        $q = $this->getRequest()->query->get('q', null);
 
         try {
             $repositories = Repository::with('tags')
