@@ -93,7 +93,7 @@ class RepositoryController extends Controller
                 $rep['rep_id'] = $rep_id;
                 $rep['rep_name'] = $item->name;
                 $rep['user_id'] = CURRENT_USER_ID;
-                $rep['rep_url'] = $item->url;
+                $rep['rep_url'] = $item->html_url;
                 $rep['language'] = $item->language;
                 $rep['rep_description'] = $item->description;
 
