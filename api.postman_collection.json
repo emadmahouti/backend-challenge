@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "510baf4d-6099-494f-9e1a-d29c30cd1ddd",
+		"name": "footballi backend chalenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get user starred",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:80/api/v1/repository/user-starred?user=vsg24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"repository",
+						"user-starred"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": "vsg24"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add tag",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tags\": [\"javascript\", \"chart\", \"qr code\", \"sample\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:80/api/v1/repository/4/tag",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"repository",
+						"4",
+						"tag"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit tag",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"QR Code\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:80/api/v1/repository/4/tag/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"repository",
+						"4",
+						"tag",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete tag",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:80/api/v1/repository/4/tag/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"repository",
+						"4",
+						"tag",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "searc repository by tag",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:80/api/v1/repository?search=chart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"repository"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "chart"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
