@@ -21,6 +21,10 @@
         {
             "name": "Vahid Amiri Motlagh",
             "email": "vahid.a1996@gmail.com"
+        },
+        {
+            "name": "Emad Mahouti",
+            "email": "emad.mahouti@gmail.com"
         }
     ],
     "autoload": {
