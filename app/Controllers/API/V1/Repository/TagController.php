@@ -30,7 +30,7 @@ class TagController extends Controller
                     return $object['title'];
                 }, $tags);
 
-                $duplicateValues = $this->duplicateValues(array_merge($tagData, $tagTitles));
+                $duplicateValues = duplicateValues(array_merge($tagData, $tagTitles));
                 if (count($duplicateValues) > 0)
                     return $this->echoHttp(
                         [
