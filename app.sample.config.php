@@ -18,7 +18,8 @@ const VIEW_ENGINE = 'blade'; // 'blade' or 'php'
 const GZIP_ENABLED = false; // can also be set on web server level
 const PRETTY_ERROR_PAGES = true;
 
-//const PROJECT_ROOT_ABS_PATH = 'D:/repositories/Soda'; // full path to project root without trailing slash
+//full path to project root without trailing slash
+//const PROJECT_ROOT_ABS_PATH = 'D:/repositories/Soda';
 const PROJECT_ROOT_ABS_PATH = '';
 
 const MONGO_DB_ENABLED = false;

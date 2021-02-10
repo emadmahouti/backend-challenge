@@ -19,11 +19,27 @@ class TagController extends Controller
     {
         try {
             $data = getJSONInput();
-            $tagsData = $data['tags'];
+            $tagData = $data['tags'];
 
-            if (!is_null($tagsData) && !empty($tagsData)) {
+            if (!is_null($tagData) && !empty($tagData)) {
 
                 $rep = Repository::where([['id', $id]])->firstOrFail();
+                $tags = $rep->tags->toArray();
+
+                $tagTitles = array_map(function ($object) {
+                    return $object['title'];
+                }, $tags);
+
+                $duplicateValues = $this->duplicateValues(array_merge($tagData, $tagTitles));
+                if (count($duplicateValues) > 0)
+                    return $this->echoHttp(
+                        [
+                            'data' => $duplicateValues,
+                            'message' => 'duplicate values not allowed',
+                            'status' => 400,
+                            'time' => time()
+                        ], 400);
+
 
                 if ($rep->user_id != CURRENT_USER_ID)
                     return $this->echoHttp(
@@ -34,7 +50,7 @@ class TagController extends Controller
                         ], 403);
 
                 $temp = [];
-                foreach ($tagsData as $item) {
+                foreach ($tagData as $item) {
                     $tag['rep_id'] = $rep->id;
                     $tag['title'] = $item;
 
@@ -164,5 +180,14 @@ class TagController extends Controller
                 ],
                 500);
         }
+    }
+
+    private function duplicateValues($arr)
+    {
+        $dups = [];
+        foreach (array_count_values($arr) as $val => $c)
+            if ($c > 1) $dups[] = $val;
+
+        return $dups;
     }
 }

@@ -39,7 +39,6 @@ class RepositoryController extends Controller
                 ]
             ]);
 
-            $resp = [];
             $response = $client->get("/users/$username/starred?per_page=10");
             $repositories = json_decode($response->getBody());
 
@@ -53,7 +52,7 @@ class RepositoryController extends Controller
                 ->get(['id', 'rep_id', 'user_id'])
                 ->toArray();
 
-            $temp = [];
+            $data = [];
             foreach ($repositories as &$item) {
                 $rep = [];
                 $rep_id = $item->id;
@@ -72,18 +71,18 @@ class RepositoryController extends Controller
                 $rep['language'] = $item->language;
                 $rep['rep_description'] = $item->description;
 
-                $temp[] = $rep;
+                $data[] = $rep;
             }
 
             Repository::upsert(
-                $temp,
+                $data,
                 ['id']
             );
 
             return $this->echoNormal(
                 [
-                    'data' => $temp,
-                    'message' => count($temp) . ' repositories found',
+                    'data' => $data,
+                    'message' => count($data) . ' repositories found',
                     'status' => 200,
                     'time' => time()
                 ]);
