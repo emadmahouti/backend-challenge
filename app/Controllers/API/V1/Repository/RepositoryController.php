@@ -5,7 +5,6 @@ namespace App\Controllers\API\V1\Repository;
 use App\Models\Repository;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Soda\Core\Http\Controller;
 
 class RepositoryController extends Controller
@@ -15,11 +14,16 @@ class RepositoryController extends Controller
         parent::beforeActionExecution($action_name, $action_arguments);
     }
 
-    protected function index()
+    protected function index($id = null)
     {
         try {
             $repositories = Repository::with('tags')
                 ->where('user_id', CURRENT_USER_ID)
+                ->where(function($query) use ($id) {
+                    if($id != null)
+                        $query->where('id', $id)
+                            ->orWhere('rep_id');
+                })
                 ->get();
 
             return $this->echoHttp(
@@ -61,7 +65,7 @@ class RepositoryController extends Controller
                 ]
             ]);
 
-            $response = $client->get("/users/$username/starred?per_page=10");
+            $response = $client->get("/users/$username/starred");
             $repositories = json_decode($response->getBody());
 
             $repIds = array_map(function ($object) {
@@ -120,7 +124,7 @@ class RepositoryController extends Controller
         } catch (\Exception $e) {
             return $this->echoHttp(
                 [
-                    'message' => 'internal server error',
+                    'message' => $e->getMessage(),
                     'status' => 500,
                     'time' => time()
                 ], 500);

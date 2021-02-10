@@ -42,7 +42,9 @@ $capsule->addConnection([
     "host" => SQL_DB_HOST,
     "database" => SQL_DB_DEFAULT_NAME,
     "username" => SQL_DB_USERNAME,
-    "password" => SQL_DB_PASSWORD
+    "password" => SQL_DB_PASSWORD,
+    "charset"   => 'utf8mb4',
+    "collation" => 'utf8mb4_unicode_ci'
 ]);
 // make this Capsule instance available globally.
 $capsule->setAsGlobal();

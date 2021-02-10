@@ -24,7 +24,9 @@ final class RepositoryMigration extends Migration
             $table->integer('user_id');
             $table->string('rep_name');
             $table->string('language')->nullable(true);
-            $table->string('rep_description');
+            $table->string('rep_description')
+                ->collation('utf8mb4_unicode_ci')
+                ->nullable(true);
             $table->string('rep_url');
             $table->timestampsTz();
         });
