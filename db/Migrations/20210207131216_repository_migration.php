@@ -25,6 +25,7 @@ final class RepositoryMigration extends Migration
             $table->string('rep_name');
             $table->string('language')->nullable(true);
             $table->string('rep_description')
+                ->charset('utf8mb4')
                 ->collation('utf8mb4_unicode_ci')
                 ->nullable(true);
             $table->string('rep_url');
