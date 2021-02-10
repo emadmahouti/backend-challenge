@@ -16,6 +16,15 @@ function notFound()
     die($view->getViewEngineInstance()->render('error.404'));
 }
 
+function duplicateValues($arr)
+{
+    $dups = [];
+    foreach (array_count_values($arr) as $val => $c)
+        if ($c > 1) $dups[] = $val;
+
+    return $dups;
+}
+
 function unauthorized()
 {
     header('HTTP/1.1 401 Unauthorized');

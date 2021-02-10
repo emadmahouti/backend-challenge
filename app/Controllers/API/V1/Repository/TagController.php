@@ -181,13 +181,4 @@ class TagController extends Controller
                 500);
         }
     }
-
-    private function duplicateValues($arr)
-    {
-        $dups = [];
-        foreach (array_count_values($arr) as $val => $c)
-            if ($c > 1) $dups[] = $val;
-
-        return $dups;
-    }
 }
