@@ -15,7 +15,7 @@ class TagController extends Controller
         parent::beforeActionExecution($action_name, $action_arguments);
     }
 
-    protected function add($id)
+    protected function add($rep_id)
     {
         try {
             $data = getJSONInput();
@@ -23,7 +23,7 @@ class TagController extends Controller
 
             if (!is_null($tagData) && !empty($tagData)) {
 
-                $rep = Repository::where([['id', $id]])->firstOrFail();
+                $rep = Repository::where([['id', $rep_id]])->firstOrFail();
                 $tags = $rep->tags->toArray();
 
                 $tagTitles = array_map(function ($object) {
