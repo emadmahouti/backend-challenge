@@ -124,7 +124,7 @@ class RepositoryController extends Controller
         } catch (\Exception $e) {
             return $this->echoHttp(
                 [
-                    'message' => $e->getMessage(),
+                    'message' => 'internal server error',
                     'status' => 500,
                     'time' => time()
                 ], 500);
