@@ -1,4 +1,4 @@
-#FBC
+# FBC
 
 FBC (Footballi Backend Challenge) is an application, allowing you to manage your github starred repositories by adding tags to them. you can add your own tags, edit them, and search among defined tags to retrieve repositories.
 
