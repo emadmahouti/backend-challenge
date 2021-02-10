@@ -20,7 +20,8 @@ class Migration extends AbstractMigration {
             'database'  => SQL_DB_DEFAULT_NAME,
             'username'  => SQL_DB_USERNAME,
             'password'  => SQL_DB_PASSWORD,
-            'charset'   => 'utf8',
+            "charset"   => 'utf8mb4',
+            "collation" => 'utf8mb4_unicode_ci'
         ]);
 
         $this->capsule->bootEloquent();
